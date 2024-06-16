@@ -1,118 +1,87 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- */
-
 import React from 'react';
-import type {PropsWithChildren} from 'react';
-import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  useColorScheme,
-  View,
-} from 'react-native';
+import { SafeAreaView, StatusBar,StyleSheet,useColorScheme ,View} from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import  { createNativeStackNavigator } from '@react-navigation/native-stack'
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
-import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
-
-type SectionProps = PropsWithChildren<{
-  title: string;
-}>;
-
-function Section({children, title}: SectionProps): React.JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
-  return (
-    <View style={styles.sectionContainer}>
-      <Text
-        style={[
-          styles.sectionTitle,
-          {
-            color: isDarkMode ? Colors.white : Colors.black,
-          },
-        ]}>
-        {title}
-      </Text>
-      <Text
-        style={[
-          styles.sectionDescription,
-          {
-            color: isDarkMode ? Colors.light : Colors.dark,
-          },
-        ]}>
-        {children}
-      </Text>
-    </View>
-  );
-}
-
+import ManageExpenses from './screens/ManageExpense';
+import RecentExpenses from './screens/RecentExpenses';
+import AllExpenses from './screens/AllExpenses';
+import { ColorsList } from './util/Colors';
+import IconBtn from './components/UI/IconBtn';
+import ExpensesContextProvider from './store/expenses-context';
 function App(): React.JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
 
+  /*const isDarkMode = useColorScheme() === 'dark';
   const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
+  };*/
+
+  const Stack = createNativeStackNavigator();
+  const BottomTabs = createBottomTabNavigator();
+
+  function ExpensesOverview(){
+    return(
+      <BottomTabs.Navigator  screenOptions={({navigation})=>({
+          headerStyle:{backgroundColor: ColorsList.primary500},
+          headerTintColor: 'white',
+          tabBarStyle:{backgroundColor:ColorsList.primary500},
+          tabBarActiveTintColor: ColorsList.accent500,
+          headerRight:({tintColor}) => <IconBtn 
+            icon='add' 
+            size={24} 
+            color={tintColor} 
+            onPress={()=>{
+              navigation.navigate('ManageExpense')
+            }}/>
+        })}>
+        <BottomTabs.Screen 
+          name='RecentExpenses' 
+          component={RecentExpenses} 
+          options={{
+            title: 'Recent Expenses',
+            tabBarLabel:'Recent',
+            tabBarIcon:({color,size})=><Ionicons name="time" size={size} color={color}/>
+          }}
+        />
+        <BottomTabs.Screen 
+          name='AllExpenses' 
+          component={AllExpenses}
+          options={{
+            title: 'All Expenses',
+            tabBarLabel:'All Expenses',
+            tabBarIcon:({color,size})=><Ionicons name="cash" size={size} color={color}/>
+          }}
+          />
+      </BottomTabs.Navigator>
+    )
+  }
 
   return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar
-        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={backgroundStyle.backgroundColor}
-      />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <Header />
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}>
-          <Section title="Step One">
-            Edit <Text style={styles.highlight}>App.tsx</Text> to change this
-            screen and then come back to see your edits.
-          </Section>
-          <Section title="See Your Changes">
-            <ReloadInstructions />
-          </Section>
-          <Section title="Debug">
-            <DebugInstructions />
-          </Section>
-          <Section title="Learn More">
-            Read the docs to discover what to do next:
-          </Section>
-          <LearnMoreLinks />
-        </View>
-      </ScrollView>
+    <SafeAreaView style={styles.container}>
+      <StatusBar backgroundColor={ColorsList.primary500} barStyle='light-content'/>
+      <ExpensesContextProvider>
+        <NavigationContainer>
+          <Stack.Navigator
+            screenOptions={{
+              headerStyle:{backgroundColor:ColorsList.primary500},
+              headerTintColor:'white'
+            }}
+          >
+            <Stack.Screen options={{headerShown:false}} name='ExpensesOverview' component={ExpensesOverview}/>
+            <Stack.Screen name="ManageExpense" component={ManageExpenses}/>
+          </Stack.Navigator>
+        </NavigationContainer>
+      </ExpensesContextProvider>
     </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-  },
-  highlight: {
-    fontWeight: '700',
-  },
+  container:{
+    flex:1,
+  }
 });
 
 export default App;

@@ -1,0 +1,8 @@
+# Set the default behavior to automatically normalize line endings.
+* text=auto
+
+# Force LF line endings for specific files
+App.tsx text eol=lf
+android/app/build.gradle text eol=lf
+package-lock.json text eol=lf
+package.json text eol=lf

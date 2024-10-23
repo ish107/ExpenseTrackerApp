@@ -2,13 +2,15 @@ import React, { useContext, useEffect, useState } from "react";
 
 import ExpensesOutput from "../components/Expenses/ExpensesOutput";
 import { ExpenseContext } from "../store/expenses-context";
-import { fetchExpense } from "../util/http";
+//import { fetchExpense } from "../util/http";
 import LoadingOverlay from "../components/UI/LoadingOverlay";
 import ErrorOverlay from "../components/UI/ErrorOverlay";
+import { fetchExpenses } from "../util/database";
 
 
 function RecentExpenses() : React.JSX.Element{
-   
+
+
     //const [fetchedExpenses, setFetchedExpenses] = useState<Expense[]>([]);
     const [isFetching, setIsFetching] = useState(true);
     const [error, setError] = useState<string|null>(null);
@@ -19,7 +21,7 @@ function RecentExpenses() : React.JSX.Element{
         async function getExpenses(){
             setIsFetching(true)
             try{
-                const expenses = await fetchExpense();
+                const expenses = await fetchExpenses();
                 expenseCtx.setExpenses(expenses)
             }catch(error){
                 setError('Unable to fetch expenses')

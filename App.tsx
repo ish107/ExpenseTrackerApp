@@ -11,12 +11,8 @@ import AllExpenses from './screens/AllExpenses';
 import { ColorsList } from './util/Colors';
 import IconBtn from './components/UI/IconBtn';
 import ExpensesContextProvider from './store/expenses-context';
-function App(): React.JSX.Element {
 
-  /*const isDarkMode = useColorScheme() === 'dark';
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };*/
+function App(): React.JSX.Element {
 
   const Stack = createNativeStackNavigator();
   const BottomTabs = createBottomTabNavigator();

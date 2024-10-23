@@ -8,9 +8,11 @@ import { ColorsList } from "../util/Colors";
 import { ExpenseContext } from "../store/expenses-context";
 import ExpenseForm from "../components/Expenses/ExpenseForm";
 import { ExpenseWithoutID } from "../Types/Expense";
-import { deleteExpense, storeExpense, updateExpense } from "../util/http";
+//import { deleteExpense, updateExpense } from "../util/http";
 import LoadingOverlay from "../components/UI/LoadingOverlay";
 import ErrorOverlay from "../components/UI/ErrorOverlay";
+
+import { deleteExpense, updateExpense, storeExpense } from "../util/database";
 
 
 function ManageExpense() : React.JSX.Element{
@@ -67,8 +69,6 @@ function ManageExpense() : React.JSX.Element{
             setIsSubmiting(false)
         }
     }
-
-    
     
     if (isSubmiting){
         return <LoadingOverlay/>

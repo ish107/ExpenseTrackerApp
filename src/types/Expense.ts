@@ -3,6 +3,7 @@ export interface Expense{
     description : string;
     amount: number;
     date : Date;
+    userId: any
 }
 
 export interface ExpenseWithoutID{

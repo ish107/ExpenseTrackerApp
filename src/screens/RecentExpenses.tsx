@@ -1,26 +1,25 @@
 import React, { useContext, useEffect, useState } from "react";
 
-import ExpensesOutput from "../src/components/expenses/ExpensesOutput";
-import { ExpenseContext } from "../src/store/expenses-context";
-//import { fetchExpense } from "../util/http";
-import LoadingOverlay from "../src/components/ui/LoadingOverlay";
-import ErrorOverlay from "../src/components/ui/ErrorOverlay";
-import { fetchExpenses } from "../src/util/database";
-
+import ExpensesOutput from "../components/expenses/ExpensesOutput";
+import { ExpenseContext } from "../store/expenses-context";
+import LoadingOverlay from "../components/ui/LoadingOverlay";
+import ErrorOverlay from "../components/ui/ErrorOverlay";
+import { fetchExpenses } from "../util/database";
+import { useUserStore } from "../store/auth-store";
 
 function RecentExpenses() : React.JSX.Element{
-
-    //const [fetchedExpenses, setFetchedExpenses] = useState<Expense[]>([]);
+    
+    const userId = useUserStore.getState().userId
+    
     const [isFetching, setIsFetching] = useState(true);
     const [error, setError] = useState<string|null>(null);
-
     const expenseCtx = useContext(ExpenseContext);
-
+    
     useEffect(()=>{
         async function getExpenses(){
             setIsFetching(true)
             try{
-                const expenses = await fetchExpenses();
+                const expenses = await fetchExpenses(userId);
                 expenseCtx.setExpenses(expenses)
             }catch(error){
                 setError('Unable to fetch expenses')
@@ -40,9 +39,6 @@ function RecentExpenses() : React.JSX.Element{
         )  
     })
 
-    function errorHandler(){
-        setError(null);
-    }
    
     if (isFetching){
         return <LoadingOverlay/>

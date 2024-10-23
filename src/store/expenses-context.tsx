@@ -1,6 +1,6 @@
 import { ReactNode, createContext, useReducer } from "react";
 
-import { Expense } from "../Types/Expense";
+import { Expense } from "../types/Expense";
 
 type ExpenseState = Expense[];
 

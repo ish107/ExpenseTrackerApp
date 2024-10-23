@@ -2,28 +2,28 @@ import React, { useContext, useLayoutEffect, useState } from "react";
 import { StyleSheet, View } from "react-native";
 import { useNavigation, useRoute } from "@react-navigation/native";
 
-import { ManageExpenseNavigationProp, ManageExpenseRouteProp } from "../src/types/NavigationProps";
-import IconBtn from "../src/components/ui/IconBtn";
-import { ColorsList } from "../src/util/Colors";
-import { ExpenseContext } from "../src/store/expenses-context";
-import ExpenseForm from "../src/components/expenses/ExpenseForm";
-import { ExpenseWithoutID } from "../src/types/Expense";
-//import { deleteExpense, updateExpense } from "../util/http";
-import LoadingOverlay from "../src/components/ui/LoadingOverlay";
-import ErrorOverlay from "../src/components/ui/ErrorOverlay";
-
-import { deleteExpense, updateExpense, storeExpense } from "../src/util/database";
+import { ManageExpenseNavigationProp, ManageExpenseRouteProp } from "../types/NavigationProps";
+import IconBtn from "../components/ui/IconBtn";
+import { ColorsList } from "../util/Colors";
+import { ExpenseContext } from "../store/expenses-context";
+import { ExpenseWithoutID } from "../types/Expense";
+import LoadingOverlay from "../components/ui/LoadingOverlay";
+import ErrorOverlay from "../components/ui/ErrorOverlay"
+import { deleteExpense, updateExpense, storeExpense } from "../util/database";
+import ExpenseFormikForm from "../components/expenses/ExpenseFormikForm";
+import { useUserStore } from "../store/auth-store";
 
 
 function ManageExpense() : React.JSX.Element{
-
+    
     const [isSubmiting, setIsSubmiting] = useState(false);
     const [error, setError] =useState<string|null>(null)
 
     const expensesCtx = useContext(ExpenseContext);
     const navigation = useNavigation<ManageExpenseNavigationProp>();
     const route = useRoute<ManageExpenseRouteProp>();
-   
+    
+    const userId = useUserStore.getState().userId
     const editId = route.params?.expenseId
     const isAdding = editId == null;
     
@@ -56,10 +56,10 @@ function ManageExpense() : React.JSX.Element{
         try{
             setIsSubmiting(true)
             if(isAdding){
-                const id = await storeExpense(expenseData);
-                expensesCtx.addExpense( {...expenseData,id:id} );
+                const id = await storeExpense(expenseData,userId);
+                expensesCtx.addExpense( {...expenseData, id:id, userId:userId} );
             }else{
-                const updatedExpense = {...expenseData, id:editId}
+                const updatedExpense = {...expenseData, id:editId, userId:userId}
                 expensesCtx.updateExpense(updatedExpense);
                 await updateExpense(editId,expenseData)
             }
@@ -80,9 +80,9 @@ function ManageExpense() : React.JSX.Element{
 
     return(
         <View style={styles.container}>  
-            <ExpenseForm 
+            <ExpenseFormikForm 
                 onCancel={cancelHandler} 
-                submitButtonLabel={isAdding?"Add" : "Update"}
+                submitLabel={isAdding?"Add" : "Update"}
                 onSubmit={confirmHandler}
                 defaultValues = {selectedExpense}
                 />

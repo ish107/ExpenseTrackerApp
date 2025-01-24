@@ -1,10 +1,11 @@
 import { View, Text, Pressable, StyleSheet } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
-import { Expense } from "../../src/Types/Expense";
+import { Expense } from "../../types/Expense";
 import { ColorsList } from "../../util/Colors";
-import { ManageExpenseNavigationProp } from "../../src/Types/NavigationProps";
-import React from "react";
+import { ManageExpenseNavigationProp } from "../../types/NavigationProps";
+import { dayFormatter } from "../ui/DateFormat";
+
 
 type ExpenseItemProps = {
     expense : Expense
@@ -22,7 +23,7 @@ function ExpenseItem({expense}:ExpenseItemProps):React.JSX.Element{
             <View style={styles.expenseItem}>
                 <View >
                     <Text style={styles.detailContainer}>{expense.description}</Text>
-                    <Text style={{color:ColorsList.primary50}}>{expense.date.toDateString()}</Text>
+                    {dayFormatter(expense.date)}
                 </View>
                 <View style={styles.amountContainer}>
                     <Text style={styles.amount}>${expense.amount.toFixed(2)}</Text>

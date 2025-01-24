@@ -2,11 +2,11 @@ import { StyleSheet, View } from "react-native";
 import { Text } from "react-native";
 import { useState } from "react";
 
-import Input from "../UI/Input";
-import Button from "../UI/Button";
-import { Expense, ExpenseWithoutID } from "../../src/Types/Expense";
-import { ColorsList } from "../../util/Colors";
-import React from "react";
+import Input from "../ui/Input";
+import Button from "../ui/Button";
+import { Expense, ExpenseWithoutID } from "../../types/Expense";
+import { ColorsList } from "../../util/Colors"
+import CalendarPicker from "../modals/DatePicker";
 
 type ExpenseFormProps = {
     onSubmit:(expenseData:ExpenseWithoutID)=>void,
@@ -17,6 +17,9 @@ type ExpenseFormProps = {
 
 function ExpenseForm({onCancel,onSubmit, submitButtonLabel, defaultValues}:ExpenseFormProps):React.JSX.Element{
 
+    const [calendarVisible, setCalendarVisible] = useState(false)
+    const [calendarDate, setCalendarDate] = useState(new Date())
+    
     const [inputs,setInputs] = useState({
         amount: {
             value : defaultValues? defaultValues.amount.toString():'',
@@ -32,6 +35,33 @@ function ExpenseForm({onCancel,onSubmit, submitButtonLabel, defaultValues}:Expen
         }
     });
 
+    function handlePress(){
+        setCalendarVisible(true)
+    }
+
+    function calendarConfirmHandler(date: Date) {
+        setCalendarDate(date);
+        setInputs((currentInputs) => ({
+        ...currentInputs,
+        date: {
+            value: date.toISOString().slice(0, 10),
+            isValid: true
+        }
+        }));
+        setCalendarVisible(false);
+    }
+
+    function calendarCancelHandler(){
+        setInputs((currentInputs) => ({
+            ...currentInputs,
+            date: {
+                value: '',
+                isValid: false
+            }
+            }));
+        setCalendarVisible(false)
+    }
+
     function inputChangeHandler(inputIdentifier: string, enteredValue: string) {
         setInputs((currentInputs) => ({ //entered value automatically update from the click event, inputIdentifier shoul be given
             ...currentInputs,
@@ -45,6 +75,7 @@ function ExpenseForm({onCancel,onSubmit, submitButtonLabel, defaultValues}:Expen
             date : new Date(inputs.date.value),
             description : inputs.description.value
         }
+        //console.log(expenseData)
 
         const amountValid = !isNaN(expenseData.amount) && expenseData.amount>0;
         const dateValid = expenseData.date.toString() !== 'Invalid Date'
@@ -61,7 +92,6 @@ function ExpenseForm({onCancel,onSubmit, submitButtonLabel, defaultValues}:Expen
             });
             return
         }
-
         onSubmit(expenseData); //form submission
     }
 
@@ -77,11 +107,18 @@ function ExpenseForm({onCancel,onSubmit, submitButtonLabel, defaultValues}:Expen
                 invalid = {!inputs.amount.isValid}
             />
             <Input label="Date" textInputConfig={{
-                placeholder: "YYYY-MM-DD",
                 maxLength:10,
+                onPressIn : handlePress,
+                caretHidden: true,
                 onChangeText: (value) => inputChangeHandler('date', value),
-                value: inputs.date.value}}
+                value: calendarDate.toISOString().slice(0,10)}}
                 invalid = {!inputs.date.isValid}
+            />
+            < CalendarPicker 
+                opened={calendarVisible} 
+                onCancel={calendarCancelHandler} 
+                onConfirm={calendarConfirmHandler} 
+                Date={calendarDate}
             />
             <Input label="Description" textInputConfig={{
                 multiline:true,

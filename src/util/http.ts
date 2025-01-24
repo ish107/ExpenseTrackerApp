@@ -1,5 +1,5 @@
 import axios from "axios";
-import { ExpenseWithoutID } from "../src/Types/Expense";
+import { ExpenseWithoutID } from "../types/Expense";
 
 
 const base_url = 'https://expence-tracker-51b42-default-rtdb.firebaseio.com'

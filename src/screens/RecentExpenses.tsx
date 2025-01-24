@@ -14,6 +14,8 @@ function RecentExpenses() : React.JSX.Element{
     const [isFetching, setIsFetching] = useState(true);
     const [error, setError] = useState<string|null>(null);
     const expenseCtx = useContext(ExpenseContext);
+
+    console.log(userId)
     
     useEffect(()=>{
         async function getExpenses(){

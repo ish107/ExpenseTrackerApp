@@ -30,6 +30,8 @@ function App(): React.JSX.Element {
   const userId = useUserStore(state => state.userId);
   const updateUser = useUserStore(state => state.updateUser);
 
+  console.log(userId)
+
   useEffect(() => {
     const subscriber = auth().onAuthStateChanged(authUser => {
       if (authUser) {
@@ -41,57 +43,50 @@ function App(): React.JSX.Element {
 
   function ExpensesOverview() {
     return (
-      <BottomTabs.Navigator
-        screenOptions={({navigation}) => ({
-          headerStyle: {backgroundColor: ColorsList.primary500},
-          headerTintColor: 'white',
-          tabBarStyle: {backgroundColor: ColorsList.primary500},
-          tabBarActiveTintColor: ColorsList.accent500,
-          headerRight: ({tintColor}) => (
-            <IconBtn
-              icon="add"
-              size={24}
-              color={tintColor}
-              onPress={() => {
-                navigation.navigate('ManageExpense');
-              }}
-            />,
-        })}>
+      <BottomTabs.Navigator  screenOptions={({navigation})=>({
+        headerStyle:{backgroundColor: ColorsList.primary500},
+        headerTintColor: 'white',
+        tabBarStyle:{backgroundColor:ColorsList.primary500},
+        tabBarActiveTintColor: ColorsList.accent500,
+        headerRight:({tintColor}) => <IconBtn 
+          icon='add' 
+          size={24} 
+          color={tintColor} 
+          onPress={()=>{
+            navigation.navigate('ManageExpense')
+          }}/>
+      })}>
         <BottomTabs.Screen
-          name="RecentExpenses" 
+          name="RecentExpenses"
           component={RecentExpenses}
           //initialParams={{userId:user.uid}}
           options={{
             title: 'Recent Expenses',
-            tabBarLabel: 'Recent',
-            tabBarIcon: ({color, size}) => (
-              <Ionicons name="time" size={size} color={color} />,
+            tabBarLabel:'Recent',
+            tabBarIcon:({color,size})=><Ionicons name="time" size={size} color={color}/>
           }}
         />
-        <BottomTabs.Screen
-          name="AllExpenses" 
+        <BottomTabs.Screen 
+          name='AllExpenses' 
           component={AllExpenses}
           options={{
             title: 'All Expenses',
-            tabBarLabel: 'All Expenses',
-            tabBarIcon: ({color, size}) => (
-              <Ionicons name="cash" size={size} color={color} />,
+            tabBarLabel:'All Expenses',
+            tabBarIcon:({color,size})=><Ionicons name="cash" size={size} color={color}/>
           }}
-          }}
-        />
+          />
         <BottomTabs.Screen
           name="Profile" 
           component={Profile}
           options={{
             title: 'Manage Profile',
             tabBarLabel: 'Profile ',
-            tabBarIcon: ({color, size}) => (
-              <Ionicons name="person" size={size} color={color} />
-            ),
+            tabBarIcon: ({color, size}) => <Ionicons name="person" size={size} color={color} />  
           }}
+          />
 
       </BottomTabs.Navigator>
-    );
+    )
   }
 
   return (

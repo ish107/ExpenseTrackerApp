@@ -10,6 +10,7 @@ export async function storeExpense(expenseData: ExpenseWithoutID, userId: any){
 
 export async function fetchExpenses(userId:any){
     const response = await firestore().collection('expenses').where('userId','==',userId).get()
+    console.log(response)
     const expenses:Expense[] = []
     response.forEach((doc)=>{
         const { amount, date, description } = doc.data()
@@ -20,6 +21,7 @@ export async function fetchExpenses(userId:any){
             description : description,
             userId:userId
         }
+        console.log(expenseObj)
         expenses.push(expenseObj)
        });    
     return expenses

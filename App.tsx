@@ -5,12 +5,12 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import  { createNativeStackNavigator } from '@react-navigation/native-stack'
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
-import ManageExpenses from './screens/ManageExpense';
-import RecentExpenses from './screens/RecentExpenses';
-import AllExpenses from './screens/AllExpenses';
+import ManageExpenses from './src/screens/ManageExpense';
+import RecentExpenses from './src/screens/RecentExpenses';
+import AllExpenses from './src/screens/AllExpenses';
 import { ColorsList } from './util/Colors';
 import IconBtn from './components/UI/IconBtn';
-import ExpensesContextProvider from './store/expenses-context';
+import ExpensesContextProvider from './src/store/expenses-context';
 function App(): React.JSX.Element {
 
   /*const isDarkMode = useColorScheme() === 'dark';

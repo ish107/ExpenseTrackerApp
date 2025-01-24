@@ -1,10 +1,10 @@
 import React, { useContext, useEffect, useState } from "react";
 
-import ExpensesOutput from "../components/Expenses/ExpensesOutput";
+import ExpensesOutput from "../../components/Expenses/ExpensesOutput";
 import { ExpenseContext } from "../store/expenses-context";
 import { fetchExpense } from "../util/http";
-import LoadingOverlay from "../components/UI/LoadingOverlay";
-import ErrorOverlay from "../components/UI/ErrorOverlay";
+import LoadingOverlay from "../../components/UI/LoadingOverlay";
+import ErrorOverlay from "../../components/UI/ErrorOverlay";
 
 
 function RecentExpenses() : React.JSX.Element{

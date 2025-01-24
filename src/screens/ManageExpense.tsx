@@ -3,14 +3,14 @@ import { StyleSheet, View } from "react-native";
 import { useNavigation, useRoute } from "@react-navigation/native";
 
 import { ManageExpenseNavigationProp, ManageExpenseRouteProp } from "../Types/NavigationProps";
-import IconBtn from "../components/UI/IconBtn";
+import IconBtn from "../../components/UI/IconBtn";
 import { ColorsList } from "../util/Colors";
 import { ExpenseContext } from "../store/expenses-context";
-import ExpenseForm from "../components/Expenses/ExpenseForm";
+import ExpenseForm from "../../components/Expenses/ExpenseForm";
 import { ExpenseWithoutID } from "../Types/Expense";
 import { deleteExpense, storeExpense, updateExpense } from "../util/http";
-import LoadingOverlay from "../components/UI/LoadingOverlay";
-import ErrorOverlay from "../components/UI/ErrorOverlay";
+import LoadingOverlay from "../../components/UI/LoadingOverlay";
+import ErrorOverlay from "../../components/UI/ErrorOverlay";
 
 
 function ManageExpense() : React.JSX.Element{

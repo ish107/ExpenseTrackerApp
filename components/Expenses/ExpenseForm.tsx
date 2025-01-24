@@ -4,8 +4,9 @@ import { useState } from "react";
 
 import Input from "../UI/Input";
 import Button from "../UI/Button";
-import { Expense, ExpenseWithoutID } from "../../Types/Expense";
+import { Expense, ExpenseWithoutID } from "../../src/Types/Expense";
 import { ColorsList } from "../../util/Colors";
+import React from "react";
 
 type ExpenseFormProps = {
     onSubmit:(expenseData:ExpenseWithoutID)=>void,

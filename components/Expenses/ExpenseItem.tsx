@@ -1,9 +1,10 @@
 import { View, Text, Pressable, StyleSheet } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
-import { Expense } from "../../Types/Expense";
+import { Expense } from "../../src/Types/Expense";
 import { ColorsList } from "../../util/Colors";
-import { ManageExpenseNavigationProp } from "../../Types/NavigationProps";
+import { ManageExpenseNavigationProp } from "../../src/Types/NavigationProps";
+import React from "react";
 
 type ExpenseItemProps = {
     expense : Expense

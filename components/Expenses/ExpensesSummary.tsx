@@ -1,6 +1,6 @@
 import { View, Text, StyleSheet} from "react-native";
 
-import { Expense } from "../../Types/Expense";
+import { Expense } from "../../src/Types/Expense";
 import { ColorsList } from "../../util/Colors";
 
 type ExpensesSummaryProps = {

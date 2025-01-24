@@ -2,7 +2,7 @@ import { View , Text, StyleSheet} from "react-native";
 
 import ExpensesSummary from "./ExpensesSummary";
 import ExpensesList from "./ExpensesList";
-import { Expense } from "../../Types/Expense";
+import { Expense } from "../../src/Types/Expense";
 import { ColorsList } from "../../util/Colors";
 
 
